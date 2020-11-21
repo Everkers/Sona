@@ -6,7 +6,7 @@ module.exports = async (msg) => {
   const { URL } = process.env;
   try {
     const { data } = await axios.get(`${URL}/upcoming-matches`);
-    if (+data.status !== 200) {
+    if (+data.code !== 200) {
       throw new Error(data.message);
     }
     const message = new Discord.MessageEmbed();
