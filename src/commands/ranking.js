@@ -1,4 +1,3 @@
-const table = require('markdown-table');
 const axios = require('axios');
 const Discord = require('discord.js');
 
