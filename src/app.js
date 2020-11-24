@@ -14,9 +14,9 @@ client.on('message', async (msg) => {
   if (msg.content.startsWith(prefix) || !msg.author.bot) {
     const { command, args } = getCommand(msg, prefix);
     if (command.match(new RegExp('upnext', 'gi'))) {
-      upComingGames(msg);
+      upComingGames(msg, args);
     } else if (command.match(new RegExp('board', 'gi'))) {
-      ranking(msg);
+      ranking(msg, args);
     }
   }
 });
