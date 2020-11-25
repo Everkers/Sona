@@ -2,11 +2,12 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const cron = require('node-cron');
 const moment = require('moment');
+// classes
 const getCommand = require('./utils/getCommand');
 const getFxgGame = require('./utils/getFxgGame');
 const convertTime12to24 = require('./utils/convertTime12to24 ');
 const { prefix } = require('../config.json')[0];
-const { upComingGames, ranking } = require('./commands');
+const { upComingGames, ranking, duoQ } = require('./commands');
 
 const { DISCORD_TOKEN } = process.env;
 const client = new Discord.Client();
@@ -17,6 +18,8 @@ client.on('message', async (msg) => {
       upComingGames(msg, args);
     } else if (command.match(new RegExp('board', 'gi'))) {
       ranking(msg, args);
+    } else if (command.match(new RegExp('duoq', 'gi'))) {
+      duoQ(msg, args);
     }
   }
 });
