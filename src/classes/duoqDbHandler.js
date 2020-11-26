@@ -14,7 +14,6 @@ module.exports = class duoqDbHanlder {
   }
 
   async isUserExist() {
-    console.log(this.id);
     const userExist = await new Promise((resolve, reject) => {
       pool.query(
         `SELECT * FROM duo_q WHERE id='${this.id}'`,
@@ -37,6 +36,27 @@ module.exports = class duoqDbHanlder {
       );
       this.msgObject.channel.send('You have successfully registered');
     } else this.msgObject.channel.send('You are already registered');
+  }
+
+  async updateData(options = 'ign+elo', data) {
+    const userExist = await this.isUserExist();
+    const opt = options.split('+');
+    let query;
+    if (opt.length === 1) query = `${opt[0]}='${data}'`;
+    else query = `${opt[0]}='${this[opt[0]]}',${opt[1]}='${this[opt[1]]}'`;
+    if (!userExist[0]) {
+      this.msgObject.channel.send('Please make sure to register with `$sona duoq add ign elo`');
+    } else {
+      await new Promise((resolve, reject) => {
+        pool.query(
+          `UPDATE duo_q SET ${query} WHERE id='${this.id}'`,
+          (err, res) => {
+            resolve(res.rows);
+          },
+        );
+      });
+      this.msgObject.channel.send(`Your ${opt.length === 1 ? opt[0] : 'Data'} has been updated`);
+    }
   }
 
   async changeStatus(looking) {
